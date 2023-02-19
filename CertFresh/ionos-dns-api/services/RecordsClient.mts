@@ -1,13 +1,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { record } from '../models/record';
-import type { record_response } from '../models/record_response';
-import type { record_update } from '../models/record_update';
+import type { record } from '../models/record.mjs';
+import type { record_response } from '../models/record_response.mjs';
+import type { record_update } from '../models/record_update.mjs';
 
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI, OpenAPIConfig } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { CancelablePromise } from '../core/CancelablePromise.mjs';
+import { OpenAPI, OpenAPIConfig } from '../core/OpenAPI.mjs';
+import { request as __request } from '../core/request.mjs';
 
 export class RecordsClient {
   readonly #config: OpenAPIConfig;

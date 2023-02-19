@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { record_response } from './record_response';
-import type { zoneTypes } from './zoneTypes';
+import type { record_response } from './record_response.mjs';
+import type { zoneTypes } from './zoneTypes.mjs';
 
 export type customer_zone = {
   /**

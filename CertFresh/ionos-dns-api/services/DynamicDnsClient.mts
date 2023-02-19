@@ -1,12 +1,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { dyn_dns_request } from '../models/dyn_dns_request';
-import type { dynamic_dns } from '../models/dynamic_dns';
+import type { dyn_dns_request } from '../models/dyn_dns_request.mjs';
+import type { dynamic_dns } from '../models/dynamic_dns.mjs';
 
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI, OpenAPIConfig } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { CancelablePromise } from '../core/CancelablePromise.mjs';
+import { OpenAPI, OpenAPIConfig } from '../core/OpenAPI.mjs';
+import { request as __request } from '../core/request.mjs';
 
 export class DynamicDnsClient {
   readonly #config: OpenAPIConfig;

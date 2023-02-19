@@ -1,4 +1,4 @@
-import { RecordsClient, recordTypes, ZonesClient } from "./ionos-dns-api";
+import { RecordsClient, recordTypes, ZonesClient } from "./ionos-dns-api/index.mjs";
 
 export class Challenger {
   readonly #zonesClient: ZonesClient;

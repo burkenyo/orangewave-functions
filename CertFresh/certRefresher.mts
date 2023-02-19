@@ -1,18 +1,19 @@
-import { Client as AcmeClient, crypto } from "acme-client";
-import { CertificateClient } from "@azure/keyvault-certificates";
-import { Challenger } from "./challenger";
-import { MILLIS_PER_DAY } from "./utils";
+import { type Client as AcmeClient, crypto } from "acme-client";
+import { type CertificateClient } from "@azure/keyvault-certificates";
+import { type Challenger } from "./challenger.mjs";
+import { type Logger, MILLIS_PER_DAY } from "../shared/utils.mjs";
 
 export class CertRefresher {
   readonly #acmeClient: AcmeClient;
   readonly #certClient: CertificateClient;
   readonly #challenger: Challenger
+  readonly #log: Logger;
 
-  constructor(acmeClient: AcmeClient, certClient: CertificateClient, challenger: Challenger) {
+  constructor(acmeClient: AcmeClient, certClient: CertificateClient, challenger: Challenger, logger: Logger) {
     this.#acmeClient = acmeClient;
     this.#certClient = certClient;
     this.#challenger = challenger;
-
+    this.#log = logger;
   }
 
   async refresh(zone: string, daysBefore = 20): Promise<boolean> {
@@ -24,7 +25,7 @@ export class CertRefresher {
       const daysTilExpiry = (existingCert.properties.expiresOn!.getTime() - Date.now()) / MILLIS_PER_DAY;
 
       if (daysTilExpiry > daysBefore) {
-        console.log(`Existing cert for ${zone} still valid for ${Math.floor(daysTilExpiry)} days.`);
+        this.#log(`Existing cert for ${zone} still valid for ${Math.floor(daysTilExpiry)} days.`);
 
         return false;
       }

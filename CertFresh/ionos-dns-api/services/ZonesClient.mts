@@ -1,13 +1,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { customer_zone } from '../models/customer_zone';
-import type { record } from '../models/record';
-import type { zone } from '../models/zone';
+import type { customer_zone } from '../models/customer_zone.mjs';
+import type { record } from '../models/record.mjs';
+import type { zone } from '../models/zone.mjs';
 
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI, OpenAPIConfig } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { CancelablePromise } from '../core/CancelablePromise.mjs';
+import { OpenAPI, OpenAPIConfig } from '../core/OpenAPI.mjs';
+import { request as __request } from '../core/request.mjs';
 
 export class ZonesClient {
   readonly #config: OpenAPIConfig;

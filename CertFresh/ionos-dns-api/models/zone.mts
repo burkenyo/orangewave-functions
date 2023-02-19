@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { zoneTypes } from './zoneTypes';
+import type { zoneTypes } from './zoneTypes.mjs';
 
 export type zone = {
   /**
