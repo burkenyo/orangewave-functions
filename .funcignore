@@ -1,4 +1,4 @@
-*.js.map
+*.mjs.map
 *.ts
 .git*
 .vscode
@@ -8,3 +8,4 @@ __queuestorage__
 local.settings.json
 test
 tsconfig.json
+config-secrets

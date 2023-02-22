@@ -13,9 +13,9 @@ export class Challenger {
   async createDnsRecord(zone: string, challengeText: string): Promise<void> {
     const zones = await this.#zonesClient.getZones();
 
-    const zoneId = zones.find(z => z.name ==  zone)?.id;
+    const zoneId = zones.find(z => zone.endsWith(z.name!))?.id;
     if (!zoneId) {
-      throw new Error(`DNS zone ${zone} not found!`);
+      throw new Error(`DNS zone ${zone} or its parent not found!`);
     }
 
     const recordResonses = await this.#recordsClient.createRecords(zoneId, [{
@@ -31,7 +31,7 @@ export class Challenger {
       throw new Error(`Challenge record for DNS zone ${zone} not created!`);
     }
 
-    this.#zoneChallenges.set(zoneId, { zoneId, challengeRecordId })
+    this.#zoneChallenges.set(zone, { zoneId, challengeRecordId })
   }
 
   async deleteDnsRecord(zone: string): Promise<void> {

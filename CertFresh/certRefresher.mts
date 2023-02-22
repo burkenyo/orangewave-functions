@@ -36,7 +36,7 @@ export class CertRefresher {
       }
     }
 
-    const [privateKey, csr] = await crypto.createCsr({ commonName: "*." + zone });
+    const [privateKey, csr] = await crypto.createCsr({ commonName: "*." + zone }, await crypto.createPrivateEcdsaKey());
 
     const newCert = await this.#acmeClient.auto({
       csr,
