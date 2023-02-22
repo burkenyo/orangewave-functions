@@ -1,10 +1,10 @@
 {
-  "packageManager": "pnpm@7.27.1",
+  "packageManager": "npm@9.2.10",
   "name": "orangewave-functions",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "prestart": "pnpm build",
+    "prestart": "npm run build",
     "start": "func start",
     "scaffold": "node scaffold.mjs"
   },
