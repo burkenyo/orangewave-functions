@@ -2,14 +2,17 @@
   "packageManager": "npm@9.2.10",
   "name": "orangewave-functions",
   "scripts": {
-    "prebuild": "rm -rf dist",
+    "prebuild": "rm -rf bundle",
     "build": "tsc",
+    "postbuild": "node scripts/bundle.mjs",
     "watch": "tsc -w",
     "prestart": "npm run build",
-    "start": "func start",
-    "scaffold": "node scaffold.mjs",
-    "download-config": "node download-config.mjs",
-    "upload-config": "node upload-config.mjs"
+    "start": "cd bundle && func start",
+    "scaffold": "node scripts/scaffold.mjs",
+    "download-config": "node scripts/download-config.mjs",
+    "upload-config": "node scripts/upload-config.mjs",
+    "predeploy": "npm run build",
+    "deploy": "cd bundle && func azure functionapp publish orangewave"
   },
   "dependencies": {
     "@azure/identity": "^3.1.3",

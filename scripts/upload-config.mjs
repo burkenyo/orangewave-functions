@@ -1,8 +1,11 @@
-import * as fs from "node:fs/promises";
-import * as process from "node:process";
+import fs from "node:fs/promises";
+import process from "node:process";
 import { program } from "commander";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as utils from "./utils.mjs";
+
+await utils.normalizeCwd();
 
 const options = program
   .requiredOption("-v, --key-vault-name <string>")

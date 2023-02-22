@@ -1,7 +1,7 @@
 import { type Client as AcmeClient, crypto } from "acme-client";
 import { type CertificateClient } from "@azure/keyvault-certificates";
 import { type Challenger } from "./challenger.mjs";
-import { type Logger, MILLIS_PER_DAY } from "../shared/utils.mjs";
+import { type Logger, MILLIS_PER_DAY } from "../utils.mjs";
 
 export class CertRefresher {
   readonly #acmeClient: AcmeClient;

@@ -4,7 +4,7 @@ import { CertificateClient } from "@azure/keyvault-certificates";
 import { Challenger } from "./challenger.mjs";
 import { CertRefresher } from "./certRefresher.mjs";
 import { RecordsClient, ZonesClient } from "./ionos-dns-api/index.mjs";
-import { type Context, wrap, type AugmentedFunction } from "../shared/utils.mjs";
+import { type Context, wrap, type AugmentedFunction } from "../utils.mjs";
 
 interface Config {
   readonly azure: {

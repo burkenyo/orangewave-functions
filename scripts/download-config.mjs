@@ -1,7 +1,10 @@
-import * as fs from "node:fs/promises";
+import fs from "node:fs/promises";
 import { program } from "commander";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as utils from "./utils.mjs";
+
+await utils.normalizeCwd();
 
 const options = program
   .requiredOption("-v, --key-vault-name <string>")
@@ -16,13 +19,7 @@ const client = new SecretClient(`https://${options.keyVaultName}.vault.azure.net
 
 const configJson = (await client.getSecret(configSecretName)).value;
 
-try {
-  await fs.access("config-secrets");
-} catch (ex) {
-  if (ex.code != "ENOENT") {
-    throw ex;
-  }
-
+if (!await utils.exists("config-secrets")) {
   await fs.mkdir("config-secrets");
 }
 
