@@ -1,7 +1,8 @@
 import { type Client as AcmeClient, crypto } from "acme-client";
 import { type CertificateClient } from "@azure/keyvault-certificates";
 import { type Challenger } from "./challenger.mjs";
-import { type Logger, MILLIS_PER_DAY } from "../utils.mjs";
+import { type Logger } from "../utils.mjs";
+import { DateTime, Duration } from "luxon";
 
 export class CertRefresher {
   readonly #acmeClient: AcmeClient;
@@ -16,24 +17,26 @@ export class CertRefresher {
     this.#log = logger;
   }
 
-  async refresh(zone: string, daysBefore = 20): Promise<boolean> {
+  async refresh(zone: string, minimumTimeTilExpiry = Duration.fromISO("P20D") ): Promise<boolean> {
     const certName = zone.replaceAll(".", "-");
 
-    try {
+    checkCert: try {
       const existingCert = await this.#certClient.getCertificate(certName);
 
-      const daysTilExpiry = (existingCert.properties.expiresOn!.getTime() - Date.now()) / MILLIS_PER_DAY;
+      const timeTilExpiry = DateTime.fromJSDate(existingCert.properties.expiresOn!).diffNow();
 
-      if (daysTilExpiry > daysBefore) {
-        this.#log(`Existing cert for ${zone} still valid for ${Math.floor(daysTilExpiry)} days.`);
+      if (timeTilExpiry >= minimumTimeTilExpiry) {
+        this.#log(`Existing cert for ${zone} still valid for ${timeTilExpiry.toFormat("d")} days.`);
 
         return false;
       }
     }
     catch (ex: any) {
-      if (!ex || ex.constructor.name != "RestError" || ex.code != "CertificateNotFound") {
-        throw ex;
+      if (ex && ex.code == "CertificateNotFound") {
+        break checkCert;
       }
+
+      throw ex;
     }
 
     const [privateKey, csr] = await crypto.createCsr({ commonName: "*." + zone }, await crypto.createPrivateEcdsaKey());

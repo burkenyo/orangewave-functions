@@ -2,10 +2,6 @@ import { AzureFunction, Context as BaseContext } from "@azure/functions";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { SecretClient } from "@azure/keyvault-secrets";
 
-export const MILLIS_PER_MINUTE = 1000 * 60
-export const MILLIS_PER_HOUR = MILLIS_PER_MINUTE * 60
-export const MILLIS_PER_DAY = MILLIS_PER_HOUR * 24
-
 export interface Logger {
     (msg: string): void;
 }
