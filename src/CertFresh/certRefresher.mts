@@ -1,3 +1,6 @@
+// Copyright © 2023 Samuel Justin Gabay
+// Licensed under the GNU Affero Public License, Version 3
+
 import { type Client as AcmeClient, crypto } from "acme-client";
 import { type CertificateClient } from "@azure/keyvault-certificates";
 import { type Challenger } from "./challenger.mjs";

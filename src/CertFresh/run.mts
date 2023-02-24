@@ -1,3 +1,6 @@
+// Copyright © 2023 Samuel Justin Gabay
+// Licensed under the GNU Affero Public License, Version 3
+
 import { Client as AcmeClient, setLogger as setAcmeLogger } from "acme-client";
 import { type TokenCredential } from "@azure/identity";
 import { CertificateClient } from "@azure/keyvault-certificates";

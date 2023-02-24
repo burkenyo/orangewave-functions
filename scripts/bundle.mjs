@@ -1,3 +1,6 @@
+// Copyright © 2023 Samuel Justin Gabay
+// Licensed under the GNU Affero Public License, Version 3
+
 import fs from "node:fs/promises";
 import * as utils from "./utils.mjs";
 

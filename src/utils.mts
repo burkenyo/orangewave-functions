@@ -1,3 +1,6 @@
+// Copyright © 2023 Samuel Justin Gabay
+// Licensed under the GNU Affero Public License, Version 3
+
 import { AzureFunction, Context as BaseContext } from "@azure/functions";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { SecretClient } from "@azure/keyvault-secrets";
