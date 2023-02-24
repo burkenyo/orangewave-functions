@@ -1,6 +1,4 @@
-// HACK to make TypeScript ok with the fetch API and the FormData class, which it doesn’t know Node now supports
 /// <reference lib="dom" />
-
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */

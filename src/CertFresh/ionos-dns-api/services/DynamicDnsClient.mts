@@ -5,7 +5,7 @@ import type { dyn_dns_request } from '../models/dyn_dns_request.mjs';
 import type { dynamic_dns } from '../models/dynamic_dns.mjs';
 
 import type { CancelablePromise } from '../core/CancelablePromise.mjs';
-import { OpenAPI, OpenAPIConfig } from '../core/OpenAPI.mjs';
+import { OpenAPI, type OpenAPIConfig } from '../core/OpenAPI.mjs';
 import { request as __request } from '../core/request.mjs';
 
 export class DynamicDnsClient {

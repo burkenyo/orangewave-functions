@@ -6,7 +6,7 @@ import type { record_response } from '../models/record_response.mjs';
 import type { record_update } from '../models/record_update.mjs';
 
 import type { CancelablePromise } from '../core/CancelablePromise.mjs';
-import { OpenAPI, OpenAPIConfig } from '../core/OpenAPI.mjs';
+import { OpenAPI, type OpenAPIConfig } from '../core/OpenAPI.mjs';
 import { request as __request } from '../core/request.mjs';
 
 export class RecordsClient {

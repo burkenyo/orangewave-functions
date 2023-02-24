@@ -39,3 +39,12 @@ export async function normalizeCwd() {
     }
   }
 }
+
+export async function readdirRecurse(dir) {
+  const subdirs = await fs.readdir(dir);
+  const files = await Promise.all(subdirs.map(async (subdir) => {
+    const res = path.resolve(dir, subdir);
+    return (await fs.stat(res)).isDirectory() ? readdirRecurse(res) : res;
+  }));
+  return files.reduce((a, f) => a.concat(f), []);
+}

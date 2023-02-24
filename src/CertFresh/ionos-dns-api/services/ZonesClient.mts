@@ -6,7 +6,7 @@ import type { record } from '../models/record.mjs';
 import type { zone } from '../models/zone.mjs';
 
 import type { CancelablePromise } from '../core/CancelablePromise.mjs';
-import { OpenAPI, OpenAPIConfig } from '../core/OpenAPI.mjs';
+import { OpenAPI, type OpenAPIConfig } from '../core/OpenAPI.mjs';
 import { request as __request } from '../core/request.mjs';
 
 export class ZonesClient {
