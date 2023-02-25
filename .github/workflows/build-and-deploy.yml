@@ -1,0 +1,51 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - prime
+      - dev
+  workflow_dispatch:
+
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v3
+
+      - name: Install Build Dependencies
+        id: installbuilddependencies
+        run: npm install
+
+      - name: Determine App Service Slot Name
+        id: determineslot
+        run: npm run determine-app-service-slot-name
+
+      - name: Build
+        id: build
+        run: |
+          npm run build
+          npm prune --omit=dev
+          npm run bundle
+        # add “npm install” if adding steps after this which need dev dependencies
+
+      - name: Login to Azure
+        id: lgoin
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_AD_APP_IDENTITY_CREDENTIALS }}
+
+      - name: Run Azure Functions Action
+        uses: Azure/functions-action@v1
+        id: deploy
+        with:
+          app-name: orangewave
+          slot-name: ${{ env.AZURE_APP_SERVICE_SLOT_NAME }}
+          package: bundle/
+          respect-funcignore: true

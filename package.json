@@ -4,15 +4,14 @@
   "scripts": {
     "prebuild": "rm -rf bundle",
     "build": "tsc",
-    "postbuild": "node scripts/bundle.mjs",
+    "bundle": "node scripts/bundle.mjs",
     "watch": "tsc -w",
-    "prestart": "npm run build",
+    "prestart": "npm run build && npm run bundle",
     "start": "cd bundle && func start",
     "scaffold": "node scripts/scaffold.mjs",
     "download-config": "node scripts/download-config.mjs",
     "upload-config": "node scripts/upload-config.mjs",
-    "predeploy": "npm run build",
-    "deploy": "cd bundle && func azure functionapp publish orangewave"
+    "determine-app-service-slot-name": "node scripts/determine-app-service-slot-name.mjs"
   },
   "dependencies": {
     "@azure/identity": "^3.1.3",
@@ -22,6 +21,7 @@
     "luxon": "^3.2.1"
   },
   "devDependencies": {
+    "@actions/core": "^1.10.0",
     "@azure/functions": "^3.5.0",
     "@types/luxon": "^3.2.0",
     "@types/node": "^18.14.1",
