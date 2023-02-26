@@ -20,6 +20,7 @@ const fileOrDirsToCopy = [
 
 if (!isRunningInGithubActions) {
   const localOnlyFilesOrDirsToCopy = [
+    "package.json",
     "local.settings.json",
   ]
 

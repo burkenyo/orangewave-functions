@@ -17,21 +17,27 @@ export interface Context extends BaseContext {
   }
 }
 
-export type AugmentedFunction<TConfig extends object> =
-  (context: Context, config: TConfig, azureCredential: TokenCredential, ...args: any[]) => Promise<any> | void;
+export type AugmentedFunction<TConfig extends object | null> =
+  (context: Context, config: TConfig, azureCredential: TokenCredential, ...args: any[]) => Promise<unknown> | void;
 
-export function wrap<TConfig extends object>(fn: AugmentedFunction<TConfig>): AzureFunction
+// the type checker will ensure all AugmentedFunctions with a non-null config type parameter
+// are called with takesConfig = true
+export function wrap<TConfig extends object>(fn: AugmentedFunction<TConfig>, takesConfig: true): AzureFunction;
+// the type checker will ensure all AugmentedFunctions with a null config type parameter
+// are called with takesConfig = false
+export function wrap(fn: AugmentedFunction<null>, takesConfig: false): AzureFunction;
+export function wrap<TConfig extends object | null>(fn: AugmentedFunction<TConfig>, takesConfig: boolean): AzureFunction
 {
   return async (baseContext: BaseContext, ...args: any[]) => {
     try {
       const context = augmentContext(baseContext);
       const azureCredential = new DefaultAzureCredential();
-      const config = await getConfig<TConfig>(context, azureCredential);
 
-      const result = fn(context, config, azureCredential, args);
-      baseContext.res = context.res;
+      const config = takesConfig? await getConfig(context, azureCredential) : null;
 
-      return result;
+      const result = await fn(context, config as TConfig, azureCredential, args);
+
+      setResult(baseContext, result);
     } catch (ex: any) {
       baseContext.log.error(ex.message ?? ex);
       throw ex;
@@ -55,9 +61,7 @@ function augmentContext(baseContext: BaseContext): Context {
   return context;
 }
 
-async function getConfig<TConfig extends object>(
-  context: Context, azureCredential: TokenCredential
-): Promise<TConfig> {
+async function getConfig(context: Context, azureCredential: TokenCredential): Promise<unknown> {
   const vaultUrl = process.env.AZURE_KEY_VAULT_URL;
 
   if (!vaultUrl) {
@@ -74,5 +78,19 @@ async function getConfig<TConfig extends object>(
     throw new Error(`Config secret ${configSecretName} not defined!`);
   }
 
-  return JSON.parse(configSecret.value) as TConfig;
+  return JSON.parse(configSecret.value);
+}
+
+function setResult(context: BaseContext, result: unknown): void {
+  if (!result) {
+    return;
+  }
+
+  context.res = { body: result };
+
+  if (context.bindingDefinitions.some(b => b.direction == "out" && b.type == "http")) {
+    const contentType = typeof result == "string" ? "text/plain" : "application/json";
+
+    context.res.headers = { "Content-Type": contentType };
+  }
 }

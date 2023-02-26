@@ -45,4 +45,4 @@ const timerTrigger: AugmentedFunction<Config> = async function (
   }
 };
 
-export default wrap(timerTrigger);
+export default wrap(timerTrigger, true);
